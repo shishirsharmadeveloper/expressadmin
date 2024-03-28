@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row">
+      <div class="col-sm-2">&nbsp;</div>
+      <div class="col-sm-6">
+        <h2>Edit Post</h2>
+        <form action="/adupdate" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<%= ads._id %>"/>
+            <div class="form-group">
+                <label for="inputAddress">Title</label>
+                <input type="text" class="form-control" name="title" id="title" placeholder="Title" value="<%= ads.title %>">
+              </div>
+              <div class="form-group">
+                <label for="inputAddress">Description</label>
+                <input type="text" class="form-control" name="description" id="description" value="<%= ads.description %>" placeholder="Description">
+              </div>
+              <div class="form-group">
+                <label for="inputAddress">Photo</label>
+                <input type="file" class="form-control" name="photo" id="photo">
+              </div>
+              <div class="form-group">
+                <label for="inputAddress">Price</label>
+                <input type="text" class="form-control" name="price" value="<%= ads.price %>" id="price" placeholder="Price">
+              </div>
+              <div class="form-group">
+                <label for="inputAddress">City</label>
+                <input type="text" class="form-control" value="<%= ads.city %>" name="city" placeholder="City">
+              </div>
+              <div class="form-group">
+                <label for="inputAddress">Country</label>
+                <input type="text" class="form-control" name="country" value="<%= ads.country %>" id="country" placeholder="Country">
+              </div>
+           
+            
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+      </div>
+      <div class="col-sm-4">&nbsp;</div>
+    </div>
+
+  </div>
