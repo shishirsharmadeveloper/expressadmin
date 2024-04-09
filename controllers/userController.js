@@ -2,6 +2,7 @@ const Mongoose = require('mongoose');
 const User = require("../models/user");
 const session = require('express-session');
 const bcrypt = require('bcrypt');
+const { validationResult } = require('express-validator');
 
 exports.Login=(req,res)=>{
     res.render('index',{layout:false,message:req.flash('message')});
@@ -18,31 +19,39 @@ exports.Userlogout=(req,res)=>{
 }
 
 exports.Userlogin=async(req,res)=>{
-
-    const singleUser = await User.findOne({
-        email:req.body.email
-    })
-
-    if(singleUser){
-        bcrypt.compare(req.body.password,singleUser.password,(err,record)=>{
-          if(record){
-            req.session.userid=singleUser._id;
-            req.session.name=singleUser.name;
-            req.session.password=singleUser.password;
-            res.redirect('dashboard');
-          }
-          else
-          {
-            req.flash('message','Wrong password');
-            res.redirect('/');
-          }
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        res.render('index',{layout:false,message:errors.mapped()});  
+    }
+    else
+    {
+        const singleUser = await User.findOne({
+            email:req.body.email
         })
-    }
-    else{
-        req.flash('message','User not found');
-        res.redirect('/');
+    
+        if(singleUser){
+            bcrypt.compare(req.body.password,singleUser.password,(err,record)=>{
+              if(record){
+                req.session.userid=singleUser._id;
+                req.session.name=singleUser.name;
+                req.session.password=singleUser.password;
+                res.redirect('dashboard');
+              }
+              else
+              {
+                req.flash('message','Wrong password');
+                res.redirect('/');
+              }
+            })
+        }
+        else{
+            req.flash('message','User not found');
+            res.redirect('/');
+        }
+    
     }
 
+    
 }
 
 exports.Register=(req,res)=>{

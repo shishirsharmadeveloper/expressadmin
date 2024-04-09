@@ -3,6 +3,7 @@ const route = express.Router();
 const controller = require('../controllers/userController');
 const adscontroller = require('../controllers/adsController');
 const multer = require('multer');
+const {check,validationResult}=require('express-validator');
 
 const storage = multer.diskStorage({
     destination:(req,file,cb)=>{
@@ -17,7 +18,10 @@ const upload = multer({storage:storage});
 
 // User routes
 route.get('/',controller.Login);
-route.post('/userlogin',controller.Userlogin);
+route.post('/userlogin',[
+    check('email').notEmpty().withMessage('Email should not be empty').isEmail().withMessage('Invalid Email'),
+    check('password').notEmpty().withMessage('Password should not be empty')
+],controller.Userlogin);
 route.get('/userlogout',controller.Userlogout);
 route.get('/about',controller.About)
 route.get('/register',controller.Register);

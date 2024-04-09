@@ -22,11 +22,17 @@
         <form action="userlogin" method="post">
           <div class="form-group">
             <label for="exampleFormControlInput1">Email</label>
-            <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="Email">
+            <input type="text" name="email" class="form-control" id="exampleFormControlInput1" placeholder="Email">
+            <% if(message && message.email){ %>
+              <span class="text-danger"><%= message.email.msg %></span>
+            <% } %>
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Password</label>
             <input type="password" name="password" class="form-control" id="exampleFormControlInput1" placeholder="Password">
+            <% if(message && message.password){ %>
+              <span class="text-danger"><%= message.password.msg %></span>
+            <% } %>
           </div>
           <button type="submit" class="btn btn-primary">Sign in</button>
         </form>
